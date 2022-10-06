@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestConsole;
+namespace TodoApp;
 public class TodoItem
 {
     public int Id { get; set; }

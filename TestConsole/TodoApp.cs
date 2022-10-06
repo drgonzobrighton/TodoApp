@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TestConsole;
+namespace TodoApp;
 public class TodoApp
 {
     private const int TableWidth = 83;
@@ -46,6 +46,7 @@ public class TodoApp
         };
 
         _todoItems.Add(todoItem.Id, todoItem);
+        Console.WriteLine();
         Console.WriteLine($"Successfully created '{description}'");
         Menu();
     }
@@ -115,6 +116,7 @@ public class TodoApp
 
         var todo = _todoItems[id];
 
+        Console.WriteLine();
         Console.WriteLine("You have selected:");
         PrintTodoItems(new() { todo });
 

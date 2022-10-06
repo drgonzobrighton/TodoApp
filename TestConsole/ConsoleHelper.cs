@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace TestConsole;
+namespace TodoApp;
 public static class ConsoleHelper
 {
     public static T GetInput<T>(string prompt, string validationErrorMessage = "", bool isOptional = false, Func<T, bool> validateFunc = null)
