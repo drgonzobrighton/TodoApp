@@ -20,34 +20,22 @@ public class TodoApp
 
     public async Task Run()
     {
-        Menu();
+        MainMenu();
         await Task.CompletedTask;
     }
 
-    private void Menu()
+    private void MainMenu()
     {
         System.Console.WriteLine();
         System.Console.WriteLine("======================================MENU=======================================");
-        System.Console.WriteLine();
-        System.Console.WriteLine("List all items - l");
-        System.Console.WriteLine();
-        System.Console.WriteLine("Create item - c");
-        System.Console.WriteLine();
-        System.Console.WriteLine();
 
-        var option = GetSelection("Please select an option from above or press [x] to exit", new() { "l", "c", "x" });
-
-        switch (option.ToLower())
+        var menu = new ConsoleMenu(new()
         {
-            case "c":
-                Create();
-                break;
-            case "x":
-                return;
-            case "l":
-                ListAll();
-                break;
-        }
+            new("List all items", ListAll),
+            new("Create item", Create),
+        });
+
+        menu.Show();
     }
 
     private void Create()
@@ -78,7 +66,7 @@ public class TodoApp
 
         System.Console.WriteLine();
         System.Console.WriteLine($"Successfully created '{description}'");
-        Menu();
+        MainMenu();
     }
 
     private void ListAll()
@@ -88,25 +76,13 @@ public class TodoApp
 
         PrintTodoItems();
 
-        System.Console.WriteLine();
-        System.Console.WriteLine("View item - v");
-        System.Console.WriteLine();
-        System.Console.WriteLine("Main menu - m");
-        System.Console.WriteLine();
-
-        var option = GetSelection("Please select an option from above or press [x] to exit", new() { "v", "m", "x" });
-
-        switch (option.ToLower())
+        var menu = new ConsoleMenu(new()
         {
-            case "v":
-                View();
-                break;
-            case "x":
-                return;
-            case "m":
-                Menu();
-                break;
-        }
+            new("View item", View),
+            new("Main menu", MainMenu),
+        });
+
+        menu.Show();
     }
 
     private void View()
@@ -120,31 +96,14 @@ public class TodoApp
         System.Console.WriteLine("You have selected:");
         PrintTodoItems(new() { todo });
 
-        System.Console.WriteLine();
-        System.Console.WriteLine("Edit item - e");
-        System.Console.WriteLine();
-        System.Console.WriteLine("Delete item - d");
-        System.Console.WriteLine();
-        System.Console.WriteLine("Main menu - m");
-        System.Console.WriteLine();
-
-        var option = GetSelection("Please select an option from above or press [x] to exit", new() { "e", "d", "m", "x" });
-
-        switch (option.ToLower())
+        var menu = new ConsoleMenu(new()
         {
-            case "e":
-                Edit(todo.Id);
-                break;
-            case "d":
-                Delete(todo.Id);
-                break;
-            case "x":
-                return;
-            case "m":
-                Menu();
-                break;
-        }
+            new("Edit item", () => Edit(todo.Id)),
+            new("Delete item", () => Delete(todo.Id)),
+            new("Main menu", MainMenu),
+        });
 
+        menu.Show();
     }
 
     private void Edit(int id)
@@ -229,4 +188,6 @@ public class TodoApp
 
         return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
     }
+
+  
 }
