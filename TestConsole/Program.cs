@@ -1,5 +1,16 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Microsoft.Extensions.DependencyInjection;
+using TodoApp.Core;
+using TodoApp.DataAccess;
+using TodoApp.Services;
 
-var todoApp = new TodoApp.TodoApp();
-todoApp.Menu();
+var services = new ServiceCollection();
+
+services.AddSingleton<TodoApp.Console.TodoApp>();
+services.AddSingleton<ITodoService, TodoService>();
+services.AddSingleton<ITodoRepository, DictionaryTodoRepository>();
+
+var serviceProvider = services.BuildServiceProvider();
+
+await serviceProvider.GetService<TodoApp.Console.TodoApp>()!.Run();
+
 

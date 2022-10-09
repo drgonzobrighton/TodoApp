@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace TodoApp;
+namespace TodoApp.Console;
 public static class ConsoleHelper
 {
     public static T GetInput<T>(string prompt, string validationErrorMessage = "", bool isOptional = false, Func<T, bool> validateFunc = null)
@@ -11,9 +11,9 @@ public static class ConsoleHelper
 
         while (true)
         {
-            Console.WriteLine(prompt);
+            System.Console.WriteLine(prompt);
 
-            var userInput = Console.ReadLine();
+            var userInput = System.Console.ReadLine();
 
             if (string.IsNullOrEmpty(userInput) && isOptional)
             {
@@ -49,9 +49,9 @@ public static class ConsoleHelper
 
         while (true)
         {
-            Console.WriteLine(prompt);
+            System.Console.WriteLine(prompt);
 
-            var userInput = Console.ReadLine();
+            var userInput = System.Console.ReadLine();
 
             if (!values.Contains(userInput!.ToLower()))
             {
@@ -76,10 +76,10 @@ public static class ConsoleHelper
         };
     }
 
-    private static void WriteError(string message)
+    public static void WriteError(string message)
     {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(message);
-        Console.ForegroundColor = ConsoleColor.White;
+        System.Console.ForegroundColor = ConsoleColor.Red;
+        System.Console.WriteLine(message);
+        System.Console.ForegroundColor = ConsoleColor.White;
     }
 }

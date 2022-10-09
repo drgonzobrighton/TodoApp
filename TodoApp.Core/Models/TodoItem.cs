@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TodoApp;
+﻿namespace TodoApp.Core.Models;
 public class TodoItem
 {
     public int Id { get; set; }
