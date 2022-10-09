@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TodoApp.Core;
 using TodoApp.Core.Models;
+using static TodoApp.Console.ConsoleHelper;
 
 namespace TodoApp.Console;
 public class TodoApp
@@ -21,37 +21,7 @@ public class TodoApp
     public async Task Run()
     {
         Menu();
-    }
-
-    private void Create()
-    {
-        System.Console.WriteLine();
-        System.Console.WriteLine("======================================Create======================================");
-        string description;
-
-        while (true)
-        {
-            description = ConsoleHelper.GetInput<string>("Please enter description:", "Description cannot be empty");
-            var completeByDate = ConsoleHelper.GetInput<DateTime>("Please enter complete by date in the following format – YYYY-MM-dd or press ENTER to skip:", isOptional: true);
-
-            var result = _todoService.Create(description, completeByDate == default ? null : completeByDate);
-
-            if (!result.Success)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ConsoleHelper.WriteError(error);
-                }
-
-                continue;
-            }
-
-            break;
-        }
-
-        System.Console.WriteLine();
-        System.Console.WriteLine($"Successfully created '{description}'");
-        Menu();
+        await Task.CompletedTask;
     }
 
     private void Menu()
@@ -65,7 +35,7 @@ public class TodoApp
         System.Console.WriteLine();
         System.Console.WriteLine();
 
-        var option = ConsoleHelper.GetSelection("Please select an option from above or press [x] to exit", new() { "l", "c", "x" });
+        var option = GetSelection("Please select an option from above or press [x] to exit", new() { "l", "c", "x" });
 
         switch (option.ToLower())
         {
@@ -75,24 +45,56 @@ public class TodoApp
             case "x":
                 return;
             case "l":
-                ListItems();
+                ListAll();
                 break;
         }
     }
 
-    private void ListItems()
+    private void Create()
+    {
+        System.Console.WriteLine();
+        System.Console.WriteLine("======================================Create======================================");
+        string description;
+
+        while (true)
+        {
+            description = GetInput<string>("Please enter description:", "Description cannot be empty", validateFunc: x => !string.IsNullOrEmpty(x));
+            var completeByDate = GetInput<DateTime?>("Please enter complete by date in the following format – YYYY-MM-dd or press ENTER to skip:", isOptional: true);
+
+            var result = _todoService.Create(description, completeByDate);
+
+            if (!result.Success)
+            {
+                foreach (var error in result.Errors)
+                {
+                    WriteError(error);
+                }
+
+                continue;
+            }
+
+            break;
+        }
+
+        System.Console.WriteLine();
+        System.Console.WriteLine($"Successfully created '{description}'");
+        Menu();
+    }
+
+    private void ListAll()
     {
         System.Console.WriteLine();
         System.Console.WriteLine("======================================All Items=====================================");
 
         PrintTodoItems();
+
         System.Console.WriteLine();
         System.Console.WriteLine("View item - v");
         System.Console.WriteLine();
         System.Console.WriteLine("Main menu - m");
         System.Console.WriteLine();
 
-        var option = ConsoleHelper.GetSelection("Please select an option from above or press [x] to exit", new() { "v", "m", "x" });
+        var option = GetSelection("Please select an option from above or press [x] to exit", new() { "v", "m", "x" });
 
         switch (option.ToLower())
         {
@@ -112,20 +114,8 @@ public class TodoApp
         System.Console.WriteLine();
         System.Console.WriteLine("======================================View========================================");
 
-        TodoItem todo = null;
+        var todo = GetById();
 
-        while (todo is null)
-        {
-            var id = ConsoleHelper.GetInput<int>("Please enter the id of the item you wish to view:");
-            todo = _todoService.GetById(id);
-
-            if (todo is null)
-            {
-                ConsoleHelper.WriteError($"Could not find item with id {id}");
-            }
-        }
-
-        
         System.Console.WriteLine();
         System.Console.WriteLine("You have selected:");
         PrintTodoItems(new() { todo });
@@ -138,7 +128,7 @@ public class TodoApp
         System.Console.WriteLine("Main menu - m");
         System.Console.WriteLine();
 
-        var option = ConsoleHelper.GetSelection("Please select an option from above or press [x] to exit", new() { "e", "d", "m", "x" });
+        var option = GetSelection("Please select an option from above or press [x] to exit", new() { "e", "d", "m", "x" });
 
         switch (option.ToLower())
         {
@@ -161,21 +151,46 @@ public class TodoApp
     {
         System.Console.WriteLine();
         System.Console.WriteLine("======================================Edit========================================");
+
+        var todo = GetById(id);
     }
 
-    public void Delete(int id)
+    private void Delete(int id)
     {
         System.Console.WriteLine();
         System.Console.WriteLine("======================================Delete=======================================");
+
+        var todo = GetById(id);
+    }
+
+    private TodoItem GetById(int? id = null)
+    {
+        TodoItem todo = null;
+
+        while (todo is null)
+        {
+             id ??= GetInput<int>("Please enter the id of the item you wish to view:");
+
+            todo = _todoService.GetById(id.Value);
+
+            if (todo is null)
+            {
+                WriteError($"Could not find item with id {id}");
+                id = null;
+            }
+        }
+
+        return todo;
     }
 
     private void PrintTodoItems(List<TodoItem> items = null)
     {
+        items ??= _todoService.GetAll();
         PrintLine();
         PrintRow("Id", "Description", "Complete By", "Completed");
         PrintLine();
 
-        foreach (var todo in items ?? _todoService.GetAll())
+        foreach (var todo in items)
         {
             var completeBy = todo.CompleteBy?.ToString("d MMM yyyy") ?? "-";
             var completed = todo.IsComplete ? "Yes" : "No";

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using static System.Console;
 
 namespace TodoApp.Console;
 public static class ConsoleHelper
@@ -11,9 +12,8 @@ public static class ConsoleHelper
 
         while (true)
         {
-            System.Console.WriteLine(prompt);
-
-            var userInput = System.Console.ReadLine();
+            WriteLine(prompt);
+            var userInput = ReadLine();
 
             if (string.IsNullOrEmpty(userInput) && isOptional)
             {
@@ -22,16 +22,16 @@ public static class ConsoleHelper
 
             try
             {
-                result = (T)Convert.ChangeType(userInput, typeof(T), CultureInfo.InvariantCulture);
+                var type = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+                result = (T)Convert.ChangeType(userInput, type, CultureInfo.InvariantCulture);
             }
             catch (Exception)
             {
-
                 WriteError($"Input is not valid, expected a {GetTypeName(result)}");
                 continue;
             }
 
-            if (validateFunc is not null && !validateFunc(result))
+            if (validateFunc is not null && !validateFunc.Invoke(result))
             {
                 WriteError(validationErrorMessage);
                 continue;
@@ -49,9 +49,8 @@ public static class ConsoleHelper
 
         while (true)
         {
-            System.Console.WriteLine(prompt);
-
-            var userInput = System.Console.ReadLine();
+            WriteLine(prompt);
+            var userInput = ReadLine();
 
             if (!values.Contains(userInput!.ToLower()))
             {
@@ -78,8 +77,8 @@ public static class ConsoleHelper
 
     public static void WriteError(string message)
     {
-        System.Console.ForegroundColor = ConsoleColor.Red;
-        System.Console.WriteLine(message);
-        System.Console.ForegroundColor = ConsoleColor.White;
+        ForegroundColor = ConsoleColor.Red;
+        WriteLine(message);
+        ForegroundColor = ConsoleColor.White;
     }
 }
