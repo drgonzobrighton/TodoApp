@@ -47,13 +47,11 @@ public class EfTodoRepository : ITodoRepository
         throw new NotImplementedException();
     }
 
-    private TodoItem Map(DomainTodoItem todo) => new()
+    private static TodoItem Map(DomainTodoItem todo) => new()
     {
         Id = todo.Id,
         Description = todo.Description,
         CompleteBy = todo.CompleteBy,
         IsComplete = todo.IsComplete
     };
-
-   
 }

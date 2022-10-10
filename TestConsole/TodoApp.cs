@@ -133,7 +133,7 @@ public class TodoApp
         return todo;
     }
 
-    private void MenuHeader(string menuName)
+    private static void MenuHeader(string menuName)
     {
         var length = (TableWidth - menuName.Length) / 2;
         System.Console.WriteLine();
