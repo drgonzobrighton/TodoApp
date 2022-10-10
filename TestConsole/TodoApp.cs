@@ -10,12 +10,10 @@ public class TodoApp
     private readonly ITodoService _todoService;
     private const int TableWidth = 83;
 
-
     public TodoApp(ITodoService todoService)
     {
         _todoService = todoService;
     }
-
 
     public void Run()
     {
@@ -24,8 +22,7 @@ public class TodoApp
 
     private void MainMenu()
     {
-        System.Console.WriteLine();
-        System.Console.WriteLine("======================================MENU=======================================");
+        MenuHeader("Menu");
 
         var menu = new ConsoleMenu(new()
         {
@@ -38,8 +35,7 @@ public class TodoApp
 
     private void Create()
     {
-        System.Console.WriteLine();
-        System.Console.WriteLine("======================================Create======================================");
+        MenuHeader("Create");
         string description;
 
         while (true)
@@ -69,8 +65,7 @@ public class TodoApp
 
     private void ListAll()
     {
-        System.Console.WriteLine();
-        System.Console.WriteLine("======================================All Items=====================================");
+        MenuHeader("All items");
 
         PrintTodoItems();
 
@@ -85,8 +80,7 @@ public class TodoApp
 
     private void View()
     {
-        System.Console.WriteLine();
-        System.Console.WriteLine("======================================View========================================");
+        MenuHeader("View");
 
         var todo = GetById();
 
@@ -107,16 +101,14 @@ public class TodoApp
 
     private void Edit(int id)
     {
-        System.Console.WriteLine();
-        System.Console.WriteLine("======================================Edit========================================");
+        MenuHeader("Edit");
 
         var todo = GetById(id);
     }
 
     private void Delete(int id)
     {
-        System.Console.WriteLine();
-        System.Console.WriteLine("======================================Delete=======================================");
+        MenuHeader("Delete");
 
         var todo = GetById(id);
     }
@@ -139,6 +131,13 @@ public class TodoApp
         }
 
         return todo;
+    }
+
+    private void MenuHeader(string menuName)
+    {
+        var length = (TableWidth - menuName.Length) / 2;
+        System.Console.WriteLine();
+        System.Console.WriteLine($"{new string('=', length)}{menuName}{new string('=', length)}");
     }
 
     private void PrintTodoItems(List<TodoItem> items = null)
@@ -187,6 +186,4 @@ public class TodoApp
 
         return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
     }
-
-
 }
