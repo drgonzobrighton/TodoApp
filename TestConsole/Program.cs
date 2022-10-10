@@ -13,6 +13,6 @@ services.AddTransient<TodoContext>();
 
 var serviceProvider = services.BuildServiceProvider();
 
-await serviceProvider.GetService<TodoApp.Console.TodoApp>()!.Run();
+serviceProvider.GetService<TodoApp.Console.TodoApp>()!.Run();
 
 

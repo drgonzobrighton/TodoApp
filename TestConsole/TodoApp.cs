@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TodoApp.Core;
 using TodoApp.Core.Models;
 using static TodoApp.Console.ConsoleHelper;
@@ -18,10 +17,9 @@ public class TodoApp
     }
 
 
-    public async Task Run()
+    public void Run()
     {
         MainMenu();
-        await Task.CompletedTask;
     }
 
     private void MainMenu()
@@ -94,6 +92,7 @@ public class TodoApp
 
         System.Console.WriteLine();
         System.Console.WriteLine("You have selected:");
+
         PrintTodoItems(new() { todo });
 
         var menu = new ConsoleMenu(new()
@@ -128,7 +127,7 @@ public class TodoApp
 
         while (todo is null)
         {
-             id ??= GetInput<int>("Please enter the id of the item you wish to view:");
+            id ??= GetInput<int>("Please enter the id of the item you wish to view:");
 
             todo = _todoService.GetById(id.Value);
 
@@ -189,5 +188,5 @@ public class TodoApp
         return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
     }
 
-  
+
 }
