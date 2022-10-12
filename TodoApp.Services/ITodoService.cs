@@ -1,6 +1,6 @@
 ﻿using TodoApp.Core.Models;
 
-namespace TodoApp.Core;
+namespace TodoApp.Services;
 public interface ITodoService
 {
     List<TodoItem> GetAll();

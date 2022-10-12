@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using TodoApp.Core;
 using TodoApp.Core.Models;
+using TodoApp.Services;
 using static TodoApp.Console.ConsoleHelper;
 
 namespace TodoApp.Console;
