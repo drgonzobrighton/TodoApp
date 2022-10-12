@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApp.Console", "TestConsole\TodoApp.Console.csproj", "{C1B09F32-FE0E-419F-9628-22DCC07FB975}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApp.Services", "TodoApp.Services\TodoApp.Services.csproj", "{EEC7363E-DFE3-48F0-924A-F83B9C2702EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.Services", "TodoApp.Services\TodoApp.Services.csproj", "{EEC7363E-DFE3-48F0-924A-F83B9C2702EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApp.Core", "TodoApp.Core\TodoApp.Core.csproj", "{BD9C4F22-B1C7-439E-94AD-B84974607583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.Core", "TodoApp.Core\TodoApp.Core.csproj", "{BD9C4F22-B1C7-439E-94AD-B84974607583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApp.DataAccess", "TodoApp.Database\TodoApp.DataAccess.csproj", "{5225CF59-029E-4D4D-9097-519EDE649825}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.DataAccess", "TodoApp.Database\TodoApp.DataAccess.csproj", "{5225CF59-029E-4D4D-9097-519EDE649825}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.Console", "TodoApp.Console\TodoApp.Console.csproj", "{982B8C7D-F222-44DD-BA4B-3BE084D0EFC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C1B09F32-FE0E-419F-9628-22DCC07FB975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1B09F32-FE0E-419F-9628-22DCC07FB975}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1B09F32-FE0E-419F-9628-22DCC07FB975}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1B09F32-FE0E-419F-9628-22DCC07FB975}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EEC7363E-DFE3-48F0-924A-F83B9C2702EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EEC7363E-DFE3-48F0-924A-F83B9C2702EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEC7363E-DFE3-48F0-924A-F83B9C2702EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{5225CF59-029E-4D4D-9097-519EDE649825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5225CF59-029E-4D4D-9097-519EDE649825}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5225CF59-029E-4D4D-9097-519EDE649825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{982B8C7D-F222-44DD-BA4B-3BE084D0EFC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{982B8C7D-F222-44DD-BA4B-3BE084D0EFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{982B8C7D-F222-44DD-BA4B-3BE084D0EFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{982B8C7D-F222-44DD-BA4B-3BE084D0EFC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
