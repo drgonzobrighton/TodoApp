@@ -1,5 +1,4 @@
-﻿using TodoApp.Core;
-using TodoApp.Core.Models;
+﻿using TodoApp.Core.Models;
 using TodoApp.DataAccess;
 
 namespace TodoApp.Services;
