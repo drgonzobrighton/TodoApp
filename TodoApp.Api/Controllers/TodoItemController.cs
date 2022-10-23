@@ -39,10 +39,9 @@ public class TodoItemController : ControllerBase
     [HttpPost("update/{id:int}")]
     public ValidationResult Update(int id, [FromBody] TodoItem item) => _todoService.Update(id, item);
 
-    [HttpDelete]
+    [HttpDelete("delete/{id:int}")]
     public ValidationResult Delete(int id) => _todoService.Delete(id);
-   
-
+    
     [HttpPost("markComplete/{id:int}")]
     public IActionResult MarkComplete(int id)
     {
