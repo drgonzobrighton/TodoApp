@@ -47,7 +47,7 @@ public class TodoApp
 
             if (!result.Success)
             {
-                foreach (var error in result.GetErrors())
+                foreach (var error in result.Errors)
                 {
                     WriteError(error);
                 }

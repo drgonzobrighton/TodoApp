@@ -3,8 +3,10 @@
 namespace TodoApp.Services;
 public class ValidationResult
 {
-    private List<string> _errors { get; } = new();
+    private readonly List<string> _errors = new();
+
     public bool Success => _errors.Count == 0;
+    public IReadOnlyCollection<string> Errors => _errors.Count > 0 ? _errors : null;
     public int? ItemId { get; set; }
 
     public ValidationResult()
@@ -18,5 +20,4 @@ public class ValidationResult
         _errors.Add(error);
     }
 
-    public List<string> GetErrors() => _errors;
 }

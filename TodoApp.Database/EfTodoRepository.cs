@@ -40,12 +40,30 @@ public class EfTodoRepository : ITodoRepository
 
     public bool Update(int id, TodoItem todo)
     {
-        throw new NotImplementedException();
+        var domainTodoItem = _context.TodoItems.FirstOrDefault(x => x.Id == id);
+
+        if (domainTodoItem is null)
+            return false;
+
+        domainTodoItem.Description = todo.Description;
+        domainTodoItem.CompleteBy = todo.CompleteBy;
+        domainTodoItem.CompletedOn = todo.CompletedOn;
+        domainTodoItem.IsComplete = todo.IsComplete;
+        domainTodoItem.ModifiedDate = DateTime.UtcNow;
+
+       return _context.SaveChanges() > 0;
     }
 
     public bool Delete(int id)
     {
-        throw new NotImplementedException();
+        var domainTodoItem = _context.TodoItems.FirstOrDefault(x => x.Id == id);
+
+        if (domainTodoItem is null)
+            return false;
+
+        _context.TodoItems.Remove(domainTodoItem);
+
+        return _context.SaveChanges() > 0;
     }
 
     private static TodoItem Map(DomainTodoItem todo) => new()
@@ -53,6 +71,7 @@ public class EfTodoRepository : ITodoRepository
         Id = todo.Id,
         Description = todo.Description,
         CompleteBy = todo.CompleteBy,
+        CompletedOn = todo.CompletedOn,
         IsComplete = todo.IsComplete
     };
 }
