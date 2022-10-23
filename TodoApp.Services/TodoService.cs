@@ -1,4 +1,6 @@
-﻿using TodoApp.Core.Models;
+﻿using System;
+using System.Collections.Generic;
+using TodoApp.Core.Models;
 using TodoApp.DataAccess;
 
 namespace TodoApp.Services;
@@ -13,9 +15,9 @@ public class TodoService : ITodoService
 
     public List<TodoItem> GetAll() => _todoRepository.GetAll();
 
-    public TodoItem? GetById(int id) => _todoRepository.GetById(id);
+    public TodoItem GetById(int id) => _todoRepository.GetById(id);
 
-    public CreateTodoItemResult Create(string description, DateTime? completeByDate)
+    public ValidationResult Create(string description, DateTime? completeByDate)
     {
         var todo = new TodoItem
         {
@@ -23,68 +25,63 @@ public class TodoService : ITodoService
             CompleteBy = completeByDate
         };
 
-        var errors = Validate(todo);
+        var result = Validate(todo);
 
-        if (errors.Any())
-        {
-            return new CreateTodoItemResult(errors);
-        }
+        if (!result.Success)
+            return result;
 
         var id = _todoRepository.Create(todo);
 
-        if (id is null)
+        if (id is not null)
         {
-            errors.Add("Could not create todo item");
-            return new CreateTodoItemResult(errors);
+            result.ItemId = id;
+            return result;
         }
 
-        return new CreateTodoItemResult(errors, id);
+        result.AddError("Could not create todo item");
+        return result;
     }
 
 
     public ValidationResult Update(int id, TodoItem todo)
     {
-        var errors = Validate(todo);
+        var result = Validate(todo, id);
 
-        if (errors.Any())
-        {
-            return new ValidationResult(errors);
-        }
+        if (!result.Success)
+            return result;
 
         var isUpdated = _todoRepository.Update(id, todo);
 
         if (!isUpdated)
-        {
-            return new ValidationResult(new() { $"Could not update {todo.Description}"});
-        }
+            result.AddError($"Could not update {todo.Description}");
 
-        return new();
+        return result;
     }
 
     public ValidationResult Delete(int id)
     {
-        if (!_todoRepository.Delete(id))
-        {
-            return new ValidationResult(new() { $"Could not delete item with id {id}" });
-        }
+        var result = new ValidationResult(id);
 
-        return new();
+        if (!_todoRepository.Delete(id))
+            result.AddError($"Could not delete item with id {id}");
+
+        return result;
     }
 
-    private static List<string> Validate(TodoItem todo)
+    private static ValidationResult Validate(TodoItem todo, int? itemId = null)
     {
-        var errors = new List<string>();
+        var result = new ValidationResult(itemId);
 
         if (string.IsNullOrEmpty(todo.Description))
         {
-            errors.Add("Description is required");
+            result.AddError("Description is required");
         }
 
         if (todo.Description?.Length > 256)
         {
-            errors.Add("Description cannot be longer than 256 characters");
+            result.AddError("Description cannot be longer than 256 characters");
         }
 
-        return errors;
+        return result;
     }
 }

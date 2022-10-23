@@ -1,4 +1,6 @@
-﻿namespace TodoApp.DataAccess.DomainModels;
+﻿using System;
+
+namespace TodoApp.DataAccess.DomainModels;
 public class DomainTodoItem
 {
     public int Id { get; set; }

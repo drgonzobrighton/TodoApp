@@ -1,4 +1,7 @@
-﻿using TodoApp.Core.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TodoApp.Core.Models;
 
 namespace TodoApp.DataAccess;
 
@@ -29,7 +32,7 @@ public class DictionaryTodoRepository : ITodoRepository
     private int _lastId = 3;
     public List<TodoItem> GetAll() => _todoItems.Values.ToList();
     
-    public TodoItem? GetById(int id) => _todoItems.TryGetValue(id, out var todo) ? todo : null;
+    public TodoItem GetById(int id) => _todoItems.TryGetValue(id, out var todo) ? todo : null;
   
     public int? Create(TodoItem todo)
     {

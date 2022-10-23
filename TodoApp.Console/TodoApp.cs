@@ -41,13 +41,13 @@ public class TodoApp
         while (true)
         {
             description = GetInput<string>("Please enter description:", "Description cannot be empty", validateFunc: x => !string.IsNullOrEmpty(x));
-            var completeByDate = GetInput<DateTime?>("Please enter complete by date in the following format – YYYY-MM-dd or press ENTER to skip:", isOptional: true);
+            var completeByDate = GetInput<DateTime?>("Please enter complete by date in the following format – YYYY-MM-dd or press ENTER to skip:");
 
             var result = _todoService.Create(description, completeByDate);
 
             if (!result.Success)
             {
-                foreach (var error in result.Errors)
+                foreach (var error in result.GetErrors())
                 {
                     WriteError(error);
                 }
@@ -66,7 +66,6 @@ public class TodoApp
     private void ListAll()
     {
         MenuHeader("All items");
-
         PrintTodoItems();
 
         var menu = new ConsoleMenu(new()

@@ -6,7 +6,7 @@ using static System.Console;
 namespace TodoApp.Console;
 public static class ConsoleHelper
 {
-    public static T GetInput<T>(string prompt, string validationErrorMessage = "", bool isOptional = false, Func<T, bool> validateFunc = null)
+    public static T GetInput<T>(string prompt, string validationErrorMessage = "",  Func<T, bool> validateFunc = null)
     {
         T result = default;
 
@@ -14,6 +14,8 @@ public static class ConsoleHelper
         {
             WriteLine(prompt);
             var userInput = ReadLine();
+
+            var isOptional = Nullable.GetUnderlyingType(typeof(T)) is not null;
 
             if (string.IsNullOrEmpty(userInput) && isOptional)
             {

@@ -1,4 +1,7 @@
-﻿using TodoApp.Core.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TodoApp.Core.Models;
 using TodoApp.DataAccess.DomainModels;
 
 namespace TodoApp.DataAccess;
@@ -13,15 +16,13 @@ public class EfTodoRepository : ITodoRepository
 
     public List<TodoItem> GetAll() => _context.TodoItems.Select(Map).ToList();
 
-
     public TodoItem? GetById(int id)
     { 
         var domainItem = _context.TodoItems.FirstOrDefault(x => x.Id == id);
 
         return domainItem is null ? null : Map(domainItem);
     }
-  
-
+    
     public int? Create(TodoItem todo)
     {
         var domain = new DomainTodoItem()
